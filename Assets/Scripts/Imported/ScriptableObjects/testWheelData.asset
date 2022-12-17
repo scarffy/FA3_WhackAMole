@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b44b95520e9eb1418a02e1da9897413, type: 3}
+  m_Name: testWheelData
+  m_EditorClassIdentifier: 
+  wheelPieces:
+  - Icon: {fileID: 0}
+    Label: iphone
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 1
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: 'samsung note '
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 2
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: ipad
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 3
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: xiaomi phone
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 4
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: air pod
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 5
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: stand
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 6
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: tripod
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 7
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: earphone
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 8
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: earphone
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 8
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: earphone
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 8
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: earphone
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 8
+    Chance: 0
+    Index: 0
+    _weight: 0
+  - Icon: {fileID: 0}
+    Label: earphone
+    Link: https://i.insider.com/5f89a3dfd260780019341c92
+    ID: 8
+    Chance: 0
+    Index: 0
+    _weight: 0
+  resultID: 2

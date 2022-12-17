@@ -1,1 +1,1 @@
-# FA3_WhackAMole
+# Whack-A-Mole
