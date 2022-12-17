@@ -45,27 +45,29 @@ public class APIManager : MonoBehaviour
         uiHandler = FindObjectOfType<UIHandler>();
     }
 
-    public IEnumerator PostToGetUserModelCo()
+    public IEnumerator PostToGetUserModelCo(string arg = null)
     {
         isRunning = true;
         yield return new WaitUntil(() => !networkHandler.isRunning);
-
-        //string token = GetToken("Token"); //CHANGE BACK TO THIS WHEN DEPLOY
 
         string token = "QPFJZvrGSgLcpS-vnrNl6OSUhyXnjIMwrRTQ1dEPO6Ekm8hTMBZO13pnMN49DHzzzIAtgZOqcYuqWwnHJ_JGgFRs-daA5UZzcdZKDbCZZIFMpjDZXgovcpdwKjkIcIuR6f0XcfvrBByhBuSNb4laKAiy0bns9PIHIr25pDInIONbdvOOBUjV87ZF97uDoTyRHRZIWlaOkPCMnpJxTv3JB7TF0pmTdyCFQUbLE45SAtDPVoEm";
 
         CheckUserToken(token);
 
         string url = "https://my-json-server.typicode.com/KazT452/demo/db";
-        //code = dataHandler.userData.code;
 
         uiHandler.ToggleDisplay("Loading", true);
 
-        var jsonText = DecryptJson(json);
-
-        webResponse = jsonText;
-
-        //yield return networkHandler.PostRequestCo<GameSettingRS>(token, url, code, false);
+        if (!string.IsNullOrEmpty(arg))
+        {
+            var jsonText = DecryptJson(arg);
+            webResponse = jsonText;
+        }
+        else
+        {
+            var jsonText = DecryptJson(json);
+            webResponse = jsonText;
+        }
 
         if (webResponse != null && webResponse.GetType() == typeof(UserModel))
         {
@@ -81,7 +83,7 @@ public class APIManager : MonoBehaviour
         isRunning = false;
     }
 
-    public IEnumerator GetRewardCo()
+    public IEnumerator GetRewardCo(string arg = null)
     {
         isRunning = true;
         yield return new WaitUntil(() => !networkHandler.isRunning);
@@ -96,9 +98,16 @@ public class APIManager : MonoBehaviour
 
         uiHandler.ToggleDisplay("Loading", true);
 
-        var jsonText = DecryptJson(json);
-
-        webResponse = jsonText;
+        if (!string.IsNullOrEmpty(arg))
+        {
+            var jsonText = DecryptJson(arg);
+            webResponse = jsonText;
+        }
+        else
+        {
+            var jsonText = DecryptJson(json);
+            webResponse = jsonText;
+        }
 
         if (webResponse != null && webResponse.GetType() == typeof(GameModel))
         {
