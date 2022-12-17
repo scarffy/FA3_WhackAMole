@@ -60,12 +60,12 @@ public class APIManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(arg))
         {
-            var jsonText = DecryptJson(arg);
+            var jsonText = DecryptUserModel(arg);
             webResponse = jsonText;
         }
         else
         {
-            var jsonText = DecryptJson(json);
+            var jsonText = DecryptUserModel(json);
             webResponse = jsonText;
         }
 
@@ -100,12 +100,12 @@ public class APIManager : MonoBehaviour
 
         if (!string.IsNullOrEmpty(arg))
         {
-            var jsonText = DecryptJson(arg);
+            var jsonText = DecryptUserModel(arg);
             webResponse = jsonText;
         }
         else
         {
-            var jsonText = DecryptJson(json);
+            var jsonText = DecryptUserModel(json);
             webResponse = jsonText;
         }
 
@@ -177,6 +177,48 @@ public class APIManager : MonoBehaviour
         string url = "Insert URL here";
 
         uiHandler.ToggleDisplay("Loading", true);
+
+        yield return networkHandler.PostRequestCo<GameModel>(token, url, score, true);
+
+        if (webResponse != null)
+        {
+            ////convert string to int
+            //int prizeID = int.Parse(prizes.ID);
+
+            //dataHandler.userData.chances -= 1;
+
+            //dataHandler.wheelData.resultID = prizeID;
+
+            //dataHandler.wheelData.resultName = prizes.Name;
+
+            webResponse = null;
+        }
+
+        uiHandler.ToggleDisplay("Loading", false);
+        isRunning = false;
+    }
+
+    /// <summary>
+    /// This is for communication between website and unity
+    /// </summary>
+    /// <param name="json">take string as parameter</param>
+    /// <returns></returns>
+    public IEnumerator PostScoreCo(string json)
+    {
+        isRunning = true;
+        yield return new WaitUntil(() => !networkHandler.isRunning);
+
+        string token = GetToken("Token"); //CHANGE BACK TO THIS WHEN DEPLOY
+
+        //string token = "QPFJZvrGSgLcpS-vnrNl6OSUhyXnjIMwrRTQ1dEPO6Ekm8hTMBZO13pnMN49DHzzzIAtgZOqcYuqWwnHJ_JGgFRs-daA5UZzcdZKDbCZZIFMpjDZXgovcpdwKjkIcIuR6f0XcfvrBByhBuSNb4laKAiy0bns9PIHIr25pDInIONbdvOOBUjV87ZF97uDoTyRHRZIWlaOkPCMnpJxTv3JB7TF0pmTdyCFQUbLE45SAtDPVoEm";
+
+        CheckUserToken(token);
+
+        string url = "Insert URL here";
+
+        uiHandler.ToggleDisplay("Loading", true);
+
+        GameModel score = DecryptGameModel(json);
 
         yield return networkHandler.PostRequestCo<GameModel>(token, url, score, true);
 
@@ -304,10 +346,13 @@ public class APIManager : MonoBehaviour
     //    sceneHandler.DisplayLoading(false);
     //}
 
-    static UserModel DecryptJson(string json)
+    static UserModel DecryptUserModel(string json)
     {
         return JsonUtility.FromJson<UserModel>(json);
     }
+
+    static GameModel DecryptGameModel(string json) => JsonUtility.FromJson<GameModel>(json);
+    
 }
 
     
