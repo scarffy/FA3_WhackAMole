@@ -223,5 +223,12 @@ public class Mole : MonoBehaviour
     {
         hittable = false;
         StopAllCoroutines();
-    }    
+    }
+
+    public void ReplaceMoleSprite(Sprite moleDefault, Sprite moleBonk, Sprite treasure)
+    {
+        mole = moleDefault;
+        moleHit = moleBonk;
+        moleTreasure = treasure;
+    }
 }
