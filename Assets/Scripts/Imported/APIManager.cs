@@ -20,6 +20,7 @@ public class APIManager : MonoBehaviour
 
     object webResponse;
 
+    [TextArea(0,500)]
     public string json;
 
     [DllImport("__Internal")]

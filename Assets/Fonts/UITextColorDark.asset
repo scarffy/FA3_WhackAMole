@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UITextColorDark
   m_EditorClassIdentifier: 
   colorMode: 3
-  topLeft: {r: 0.7169812, g: 0.3519988, b: 0.2529726, a: 1}
-  topRight: {r: 0.5294118, g: 0.2509804, b: 0.1764706, a: 1}
-  bottomLeft: {r: 0.5283019, g: 0.25120503, b: 0.17643286, a: 1}
-  bottomRight: {r: 0.3679245, g: 0.079245284, b: 0, a: 1}
+  topLeft: {r: 1, g: 1, b: 1, a: 1}
+  topRight: {r: 1, g: 0.77254903, b: 0, a: 1}
+  bottomLeft: {r: 1, g: 0.8227599, b: 0.22075468, a: 1}
+  bottomRight: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
