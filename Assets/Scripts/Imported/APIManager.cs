@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using UnityEngine.Networking;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Utilities;
 
@@ -22,6 +23,8 @@ public class APIManager : MonoBehaviour
 
     [TextArea(0,500)]
     public string json;
+    [SerializeField] private string fullDataPath;
+    private string dataPath = "data.json";
 
     [DllImport("__Internal")]
     private static extern string GetToken(string key);
@@ -42,6 +45,21 @@ public class APIManager : MonoBehaviour
 
     void Start()
     {
+        fullDataPath = System.IO.Path.Combine(Application.streamingAssetsPath, dataPath);
+
+        StartCoroutine(GetMoleData());
+
+        IEnumerator GetMoleData(){
+            var wr = UnityWebRequest.Get(fullDataPath);
+            wr.SendWebRequest();
+
+            if(wr.error != null)
+                yield break;
+            else
+                //! load the data
+                json = wr.downloadHandler.text;
+        }
+
         dataHandler = GetComponent<DataHandler>();
         uiHandler = FindObjectOfType<UIHandler>();
     }
