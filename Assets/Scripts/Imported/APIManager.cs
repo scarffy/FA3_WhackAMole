@@ -47,21 +47,39 @@ public class APIManager : MonoBehaviour
     {
         fullDataPath = System.IO.Path.Combine(Application.streamingAssetsPath, dataPath);
 
-        StartCoroutine(GetMoleData());
+        /* StartCoroutine(GetMoleData());
 
         IEnumerator GetMoleData(){
-            var wr = UnityWebRequest.Get(fullDataPath);
-            wr.SendWebRequest();
-
-            if(wr.error != null)
-                yield break;
-            else
-                //! load the data
-                json = wr.downloadHandler.text;
+            
         }
+        */
+
+        StartCoroutine(GetJsonData());
 
         dataHandler = GetComponent<DataHandler>();
         uiHandler = FindObjectOfType<UIHandler>();
+    }
+
+    IEnumerator GetJsonData()
+    {
+        WWW wr = new WWW(fullDataPath);
+        yield return wr;
+        json = wr.text;
+
+        //! Obsolete WWW does work but WR doesn't
+            // var wr = UnityWebRequest.Get(fullDataPath);
+            // wr.SendWebRequest();
+
+            // if (wr.error != null)
+            // {
+            //     Debug.Log("Json error occur: " + wr.error);
+            //     yield break;
+            // }
+            // else
+            // {
+            //     json = wr.downloadHandler.text;
+            //     Debug.Log($"JSON data: {json}");
+            // }
     }
 
     public IEnumerator PostToGetUserModelCo(string arg = null)
