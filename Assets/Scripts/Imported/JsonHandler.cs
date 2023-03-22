@@ -9,7 +9,7 @@ public class JsonHandler : MonoBehaviour
     public static JsonHandler instance;
 
     private string moleDataJson;
-    [TextArea(0, 500)][SerializeField] private string gameDataJson;
+    private string gameDataJson;
 
     // Data path
     private string fullDataPath;
@@ -20,10 +20,14 @@ public class JsonHandler : MonoBehaviour
     public Action<string> moleDataAction;
     public Action<string> gameModeAction;
 
+    public Mole[] moleScript;
+
     void Awake()
     {
         if (instance == null)
             instance = this;
+
+        GetImages();
     }
 
     public void GetJsonData()
@@ -40,21 +44,6 @@ public class JsonHandler : MonoBehaviour
         yield return wr;
         moleDataJson = wr.text;
         if (moleData != null) moleData?.Invoke(wr.text);
-
-        //! Obsolete WWW does work but WR doesn't
-        // var wr = UnityWebRequest.Get(fullDataPath);
-        // wr.SendWebRequest();
-
-        // if (wr.error != null)
-        // {
-        //     Debug.Log("Json error occur: " + wr.error);
-        //     yield break;
-        // }
-        // else
-        // {
-        //     json = wr.downloadHandler.text;
-        //     Debug.Log($"JSON data: {json}");
-        // }
     }
 
     IEnumerator GetGameModeCo(Action<string> moleData = null)
@@ -65,5 +54,33 @@ public class JsonHandler : MonoBehaviour
         yield return wr;
         gameDataJson = wr.text;
         if (moleData != null) moleData?.Invoke(wr.text);
+    }
+
+    void GetImages()
+    {
+        Texture2D moleNomalTexture = TextureFromStreamingAssets("MoleNormal");
+        Texture2D moleHitTexture = TextureFromStreamingAssets("MoleBonked");
+
+        foreach (var item in moleScript)
+        {
+            item.SetMoleSprite(ConvertTextureToSprite(moleNomalTexture));
+            item.SetMoleHitSprite(ConvertTextureToSprite(moleHitTexture));
+        }
+    }
+
+    public static Texture2D TextureFromStreamingAssets(string textureName)
+    {
+        string imageFile = Application.streamingAssetsPath + "/Images/Defaults/" + textureName + ".png";
+        byte[] pngBytes = System.IO.File.ReadAllBytes(imageFile);
+        Texture2D tex = new Texture2D(2, 2);
+        ImageConversion.LoadImage(tex, pngBytes);
+        return tex;
+    }
+
+    public static Sprite ConvertTextureToSprite(Texture2D tex)
+    {
+        Vector2 pivot = new Vector2(0.5f, 0.5f);
+        Sprite sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), pivot, 100.0f);
+        return sprite;
     }
 }

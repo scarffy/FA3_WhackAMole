@@ -7891,6 +7891,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ecbe94e1959e14883159269654b70a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &1704607920 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3699986210501043061, guid: 8b333ac7fee025842b6b0e5999cfaf46, type: 3}
+  m_PrefabInstance: {fileID: 2109027253}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1723066289
 GameObject:
   m_ObjectHideFlags: 0
@@ -8496,6 +8501,7 @@ GameObject:
   - component: {fileID: 1880803565}
   - component: {fileID: 1880803564}
   - component: {fileID: 1880803563}
+  - component: {fileID: 1880803566}
   m_Layer: 0
   m_Name: DataHandler
   m_TagString: Untagged
@@ -8563,6 +8569,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userData: {fileID: 11400000, guid: 09ff87c5bd93fc048b7f027946bee96c, type: 2}
+--- !u!114 &1880803566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880803561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e6830d4f10bc740b89a9751db55dc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameDataJson: 
+  fullDataPath: 
+  imageUrl: 
+  spriteRenderer: {fileID: 1704607920}
+  moleScript:
+  - {fileID: 488730030}
+  - {fileID: 591192474}
+  - {fileID: 911152711}
+  - {fileID: 1040674383}
+  - {fileID: 1577617655}
+  - {fileID: 1704607917}
+  - {fileID: 1818462805}
+  - {fileID: 1960182366}
+  - {fileID: 2134310451}
 --- !u!1 &1882069366
 GameObject:
   m_ObjectHideFlags: 0
@@ -10248,6 +10280,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 0289bab4808c4479d9e3550d08d588e5, type: 3}
+    - target: {fileID: 3699986209214819539, guid: 8b333ac7fee025842b6b0e5999cfaf46, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3699986209347097094, guid: 8b333ac7fee025842b6b0e5999cfaf46, type: 3}
       propertyPath: m_Name
       value: MoleHole
@@ -10320,6 +10356,10 @@ PrefabInstance:
       propertyPath: moleHit
       value: 
       objectReference: {fileID: 21300000, guid: 06e1c3d4749b6439e89b958559a9dca0, type: 3}
+    - target: {fileID: 3699986210863133877, guid: 8b333ac7fee025842b6b0e5999cfaf46, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3699986210863133879, guid: 8b333ac7fee025842b6b0e5999cfaf46, type: 3}
       propertyPath: m_Sprite
       value: 
