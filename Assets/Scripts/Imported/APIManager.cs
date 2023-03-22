@@ -21,10 +21,8 @@ public class APIManager : MonoBehaviour
 
     object webResponse;
 
-    [TextArea(0,500)]
-    public string json;
-    [SerializeField] private string fullDataPath;
-    private string dataPath = "data.json";
+    [TextArea(0, 500)]
+    [SerializeField] private string moleDataJson;
 
     [DllImport("__Internal")]
     private static extern string GetToken(string key);
@@ -45,41 +43,19 @@ public class APIManager : MonoBehaviour
 
     void Start()
     {
-        fullDataPath = System.IO.Path.Combine(Application.streamingAssetsPath, dataPath);
+        JsonHandler.instance.moleDataAction += WaitMoleData;
 
-        /* StartCoroutine(GetMoleData());
+        JsonHandler.instance.GetJsonData();
 
-        IEnumerator GetMoleData(){
-            
+        void WaitMoleData(string value)
+        {
+            Debug.Log("Got value:" + value);
+            moleDataJson = value;
+            JsonHandler.instance.moleDataAction -= WaitMoleData;
         }
-        */
-
-        StartCoroutine(GetJsonData());
 
         dataHandler = GetComponent<DataHandler>();
         uiHandler = FindObjectOfType<UIHandler>();
-    }
-
-    IEnumerator GetJsonData()
-    {
-        WWW wr = new WWW(fullDataPath);
-        yield return wr;
-        json = wr.text;
-
-        //! Obsolete WWW does work but WR doesn't
-            // var wr = UnityWebRequest.Get(fullDataPath);
-            // wr.SendWebRequest();
-
-            // if (wr.error != null)
-            // {
-            //     Debug.Log("Json error occur: " + wr.error);
-            //     yield break;
-            // }
-            // else
-            // {
-            //     json = wr.downloadHandler.text;
-            //     Debug.Log($"JSON data: {json}");
-            // }
     }
 
     public IEnumerator PostToGetUserModelCo(string arg = null)
@@ -102,7 +78,7 @@ public class APIManager : MonoBehaviour
         }
         else
         {
-            var jsonText = DecryptUserModel(json);
+            var jsonText = DecryptUserModel(moleDataJson);
             webResponse = jsonText;
         }
 
@@ -142,7 +118,7 @@ public class APIManager : MonoBehaviour
         }
         else
         {
-            var jsonText = DecryptUserModel(json);
+            var jsonText = DecryptUserModel(moleDataJson);
             webResponse = jsonText;
         }
 
@@ -188,7 +164,7 @@ public class APIManager : MonoBehaviour
     //        int prizeID = int.Parse(response.@return.prizeId);
 
     //        dataHandler.userData.chances = chance;
-                
+
     //        dataHandler.wheelData.resultID = prizeID;  //change to int
 
     //        dataHandler.wheelData.resultName = response.@return.reward;
@@ -305,7 +281,7 @@ public class APIManager : MonoBehaviour
 
     public void CheckUserToken(string token)
     {
-        if(!string.IsNullOrEmpty(token))
+        if (!string.IsNullOrEmpty(token))
         {
             return;
         }
@@ -389,9 +365,9 @@ public class APIManager : MonoBehaviour
     }
 
     static GameModel DecryptGameModel(string json) => JsonUtility.FromJson<GameModel>(json);
-    
+
 }
 
-    
+
 
 

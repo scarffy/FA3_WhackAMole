@@ -57,7 +57,7 @@ public class Mole : MonoBehaviour
 
     public void Activate(float level, bool isTreasure)
     {
-        if(isTreasure)
+        if (isTreasure)
         {
             SetLevel(0);
             CreateNext(isTreasure);
@@ -77,7 +77,7 @@ public class Mole : MonoBehaviour
                     StopAllCoroutines();
                     StartCoroutine(QuickHide());
                     hittable = false;
-                break;
+                    break;
 
                 case MoleType.Treasure:
                     spriteRenderer.sprite = moleHit;//change to open treasure sprite if available
@@ -87,7 +87,7 @@ public class Mole : MonoBehaviour
                     StopAllCoroutines();
                     StartCoroutine(QuickHide());
                     hittable = false;
-                break;
+                    break;
             }
             gameManager.SetMole();
         }
@@ -98,7 +98,7 @@ public class Mole : MonoBehaviour
         transform.localPosition = start;
 
         float elapsed = 0f;
-        while(elapsed < showDuration)
+        while (elapsed < showDuration)
         {
             transform.localPosition = Vector2.Lerp(start, end, elapsed / showDuration);
             boxCollider2D.offset = Vector2.Lerp(boxOffsetHidden, boxOffset, elapsed / showDuration);
@@ -114,7 +114,7 @@ public class Mole : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         elapsed = 0f;
-        while(elapsed < showDuration)
+        while (elapsed < showDuration)
         {
             transform.localPosition = Vector2.Lerp(end, start, elapsed / showDuration);
             boxCollider2D.offset = Vector2.Lerp(boxOffset, boxOffsetHidden, elapsed / showDuration);
@@ -131,7 +131,7 @@ public class Mole : MonoBehaviour
     {
         yield return new WaitForSeconds(0.25f);
 
-        if(!hittable)
+        if (!hittable)
         {
             Hide();
         }
@@ -158,7 +158,7 @@ public class Mole : MonoBehaviour
     {
         gameManager.SetMole();
 
-        yield return new WaitUntil(() =>!gameManager.running);
+        yield return new WaitUntil(() => !gameManager.running);
 
         if (gameManager.currMoleParam.ID == "Treasure")
         {
@@ -223,5 +223,15 @@ public class Mole : MonoBehaviour
     {
         hittable = false;
         StopAllCoroutines();
-    }    
+    }
+
+    public void SetMoleSprite(Sprite sprite)
+    {
+        mole = sprite;
+    }
+
+    public void SetMoleHitSprite(Sprite sprite)
+    {
+        moleHit = sprite;
+    }
 }
