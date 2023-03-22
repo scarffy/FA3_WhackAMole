@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class JsonHandler : MonoBehaviour
 {
@@ -22,18 +22,21 @@ public class JsonHandler : MonoBehaviour
 
     public Mole[] moleScript;
 
+    [Space]
+    [SerializeField] private Image backgroundImage;
+
     void Awake()
     {
         if (instance == null)
             instance = this;
-
-        GetImages();
     }
 
     public void GetJsonData()
     {
         StartCoroutine(GetMoleDataCo(moleDataAction));
         StartCoroutine(GetGameModeCo(gameModeAction));
+
+        GetImages();
     }
 
     IEnumerator GetMoleDataCo(Action<string> moleData = null)
@@ -66,6 +69,9 @@ public class JsonHandler : MonoBehaviour
             item.SetMoleSprite(ConvertTextureToSprite(moleNomalTexture));
             item.SetMoleHitSprite(ConvertTextureToSprite(moleHitTexture));
         }
+
+        Texture2D backgroundTexture = TextureFromStreamingAssets("Background");
+        backgroundImage.sprite = ConvertTextureToSprite(backgroundTexture);
     }
 
     public static Texture2D TextureFromStreamingAssets(string textureName)
