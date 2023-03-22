@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using UnityEngine.Networking;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Utilities;
 
@@ -20,7 +21,10 @@ public class APIManager : MonoBehaviour
 
     object webResponse;
 
+    [TextArea(0,500)]
     public string json;
+    [SerializeField] private string fullDataPath;
+    private string dataPath = "data.json";
 
     [DllImport("__Internal")]
     private static extern string GetToken(string key);
@@ -41,8 +45,41 @@ public class APIManager : MonoBehaviour
 
     void Start()
     {
+        fullDataPath = System.IO.Path.Combine(Application.streamingAssetsPath, dataPath);
+
+        /* StartCoroutine(GetMoleData());
+
+        IEnumerator GetMoleData(){
+            
+        }
+        */
+
+        StartCoroutine(GetJsonData());
+
         dataHandler = GetComponent<DataHandler>();
         uiHandler = FindObjectOfType<UIHandler>();
+    }
+
+    IEnumerator GetJsonData()
+    {
+        WWW wr = new WWW(fullDataPath);
+        yield return wr;
+        json = wr.text;
+
+        //! Obsolete WWW does work but WR doesn't
+            // var wr = UnityWebRequest.Get(fullDataPath);
+            // wr.SendWebRequest();
+
+            // if (wr.error != null)
+            // {
+            //     Debug.Log("Json error occur: " + wr.error);
+            //     yield break;
+            // }
+            // else
+            // {
+            //     json = wr.downloadHandler.text;
+            //     Debug.Log($"JSON data: {json}");
+            // }
     }
 
     public IEnumerator PostToGetUserModelCo(string arg = null)
