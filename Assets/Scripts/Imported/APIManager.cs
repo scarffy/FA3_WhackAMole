@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using UnityEngine.Networking;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Utilities;
 
@@ -20,7 +21,8 @@ public class APIManager : MonoBehaviour
 
     object webResponse;
 
-    public string json;
+    [TextArea(0, 500)]
+    [SerializeField] private string moleDataJson;
 
     [DllImport("__Internal")]
     private static extern string GetToken(string key);
@@ -41,31 +43,44 @@ public class APIManager : MonoBehaviour
 
     void Start()
     {
+        JsonHandler.instance.moleDataAction += WaitMoleData;
+
+        JsonHandler.instance.GetJsonData();
+
+        void WaitMoleData(string value)
+        {
+            Debug.Log("Got value:" + value);
+            moleDataJson = value;
+            JsonHandler.instance.moleDataAction -= WaitMoleData;
+        }
+
         dataHandler = GetComponent<DataHandler>();
         uiHandler = FindObjectOfType<UIHandler>();
     }
 
-    public IEnumerator PostToGetUserModelCo()
+    public IEnumerator PostToGetUserModelCo(string arg = null)
     {
         isRunning = true;
         yield return new WaitUntil(() => !networkHandler.isRunning);
-
-        //string token = GetToken("Token"); //CHANGE BACK TO THIS WHEN DEPLOY
 
         string token = "QPFJZvrGSgLcpS-vnrNl6OSUhyXnjIMwrRTQ1dEPO6Ekm8hTMBZO13pnMN49DHzzzIAtgZOqcYuqWwnHJ_JGgFRs-daA5UZzcdZKDbCZZIFMpjDZXgovcpdwKjkIcIuR6f0XcfvrBByhBuSNb4laKAiy0bns9PIHIr25pDInIONbdvOOBUjV87ZF97uDoTyRHRZIWlaOkPCMnpJxTv3JB7TF0pmTdyCFQUbLE45SAtDPVoEm";
 
         CheckUserToken(token);
 
         string url = "https://my-json-server.typicode.com/KazT452/demo/db";
-        //code = dataHandler.userData.code;
 
         uiHandler.ToggleDisplay("Loading", true);
 
-        var jsonText = DecryptJson(json);
-
-        webResponse = jsonText;
-
-        //yield return networkHandler.PostRequestCo<GameSettingRS>(token, url, code, false);
+        if (!string.IsNullOrEmpty(arg))
+        {
+            var jsonText = DecryptUserModel(arg);
+            webResponse = jsonText;
+        }
+        else
+        {
+            var jsonText = DecryptUserModel(moleDataJson);
+            webResponse = jsonText;
+        }
 
         if (webResponse != null && webResponse.GetType() == typeof(UserModel))
         {
@@ -81,7 +96,7 @@ public class APIManager : MonoBehaviour
         isRunning = false;
     }
 
-    public IEnumerator GetRewardCo()
+    public IEnumerator GetRewardCo(string arg = null)
     {
         isRunning = true;
         yield return new WaitUntil(() => !networkHandler.isRunning);
@@ -96,9 +111,16 @@ public class APIManager : MonoBehaviour
 
         uiHandler.ToggleDisplay("Loading", true);
 
-        var jsonText = DecryptJson(json);
-
-        webResponse = jsonText;
+        if (!string.IsNullOrEmpty(arg))
+        {
+            var jsonText = DecryptUserModel(arg);
+            webResponse = jsonText;
+        }
+        else
+        {
+            var jsonText = DecryptUserModel(moleDataJson);
+            webResponse = jsonText;
+        }
 
         if (webResponse != null && webResponse.GetType() == typeof(GameModel))
         {
@@ -142,7 +164,7 @@ public class APIManager : MonoBehaviour
     //        int prizeID = int.Parse(response.@return.prizeId);
 
     //        dataHandler.userData.chances = chance;
-                
+
     //        dataHandler.wheelData.resultID = prizeID;  //change to int
 
     //        dataHandler.wheelData.resultName = response.@return.reward;
@@ -168,6 +190,48 @@ public class APIManager : MonoBehaviour
         string url = "Insert URL here";
 
         uiHandler.ToggleDisplay("Loading", true);
+
+        yield return networkHandler.PostRequestCo<GameModel>(token, url, score, true);
+
+        if (webResponse != null)
+        {
+            ////convert string to int
+            //int prizeID = int.Parse(prizes.ID);
+
+            //dataHandler.userData.chances -= 1;
+
+            //dataHandler.wheelData.resultID = prizeID;
+
+            //dataHandler.wheelData.resultName = prizes.Name;
+
+            webResponse = null;
+        }
+
+        uiHandler.ToggleDisplay("Loading", false);
+        isRunning = false;
+    }
+
+    /// <summary>
+    /// This is for communication between website and unity
+    /// </summary>
+    /// <param name="json">take string as parameter</param>
+    /// <returns></returns>
+    public IEnumerator PostScoreCo(string json)
+    {
+        isRunning = true;
+        yield return new WaitUntil(() => !networkHandler.isRunning);
+
+        string token = GetToken("Token"); //CHANGE BACK TO THIS WHEN DEPLOY
+
+        //string token = "QPFJZvrGSgLcpS-vnrNl6OSUhyXnjIMwrRTQ1dEPO6Ekm8hTMBZO13pnMN49DHzzzIAtgZOqcYuqWwnHJ_JGgFRs-daA5UZzcdZKDbCZZIFMpjDZXgovcpdwKjkIcIuR6f0XcfvrBByhBuSNb4laKAiy0bns9PIHIr25pDInIONbdvOOBUjV87ZF97uDoTyRHRZIWlaOkPCMnpJxTv3JB7TF0pmTdyCFQUbLE45SAtDPVoEm";
+
+        CheckUserToken(token);
+
+        string url = "Insert URL here";
+
+        uiHandler.ToggleDisplay("Loading", true);
+
+        GameModel score = DecryptGameModel(json);
 
         yield return networkHandler.PostRequestCo<GameModel>(token, url, score, true);
 
@@ -217,7 +281,7 @@ public class APIManager : MonoBehaviour
 
     public void CheckUserToken(string token)
     {
-        if(!string.IsNullOrEmpty(token))
+        if (!string.IsNullOrEmpty(token))
         {
             return;
         }
@@ -295,12 +359,15 @@ public class APIManager : MonoBehaviour
     //    sceneHandler.DisplayLoading(false);
     //}
 
-    static UserModel DecryptJson(string json)
+    static UserModel DecryptUserModel(string json)
     {
         return JsonUtility.FromJson<UserModel>(json);
     }
+
+    static GameModel DecryptGameModel(string json) => JsonUtility.FromJson<GameModel>(json);
+
 }
 
-    
+
 
 

@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     private MoleParam[] moleParam;
     private HashSet<Mole> currentMoles = new HashSet<Mole>();
-    
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -71,18 +71,18 @@ public class GameManager : MonoBehaviour
         {
             Cursor.visible = false;
             timeRemaining -= Time.deltaTime;
-            if(timeRemaining <= 0)
+            if (timeRemaining <= 0)
             {
                 timeRemaining = 0;
                 EndGame(0);
             }
 
-            if(timeRemaining < startingTime / 2 && !treasureOutClose)
+            if (timeRemaining < startingTime / 2 && !treasureOutClose)
             {
                 treasureOut = true;
             }
 
-            if(currentMoles.Count <= (score / 10))
+            if (currentMoles.Count <= (score / 10))
             {
                 int index = UnityEngine.Random.Range(0, moles.Count);
                 if (!currentMoles.Contains(moles[index]))
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
 
     public void GameTypeSet(string type) //Button function
     {
-        if(type == "Short")
+        if (type == "Short")
         {
             SetGameType(GameType.Short);
         }
@@ -166,13 +166,13 @@ public class GameManager : MonoBehaviour
         }
         currentMoles.Clear();
 
-        yield return new WaitUntil(() => !isCountDown);     
+        yield return new WaitUntil(() => !isCountDown);
         playing = true;
     }
 
     public void EndGame(int type)
     {
-        foreach(Mole mole in moles)
+        foreach (Mole mole in moles)
         {
             mole.StopGame();
         }
@@ -220,7 +220,7 @@ public class GameManager : MonoBehaviour
             dataHandler.userData.userModel.chances = chance;
         }
 
-        if(chance <= 0)
+        if (chance <= 0)
         {
             playable = false;
         }
@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
         //score = playerScore};
         uiHandler.resultScoreText.text = score.ToString("F2");
         uiHandler.ToggleDisplay("Result", true);
-        
+
         uiHandler.ToggleDisplay("Loading", true);
         //yield return APIManager.instance.PostScoreCo(scoreModel);
         uiHandler.ToggleDisplay("Loading", false);
@@ -257,7 +257,7 @@ public class GameManager : MonoBehaviour
             SelectReward();
             yield return new WaitUntil(() => !selectingReward);
         }
-       
+
         if (!string.IsNullOrEmpty(networkHandler.errorMessage))
         {
             uiHandler.ToggleDisplay("Error", true, false, networkHandler.errorMessage);
@@ -414,7 +414,7 @@ public class GameManager : MonoBehaviour
     public void MoleReset()
     {
         SetMole();
-        for(int i = 0; i < moles.Count; i++)
+        for (int i = 0; i < moles.Count; i++)
         {
             moles[i].SetParam();
         }
