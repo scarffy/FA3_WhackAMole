@@ -7891,11 +7891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06ecbe94e1959e14883159269654b70a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &1704607920 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 3699986210501043061, guid: 8b333ac7fee025842b6b0e5999cfaf46, type: 3}
-  m_PrefabInstance: {fileID: 2109027253}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1723066289
 GameObject:
   m_ObjectHideFlags: 0
@@ -8581,10 +8576,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05e6830d4f10bc740b89a9751db55dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameDataJson: 
-  fullDataPath: 
-  imageUrl: 
-  spriteRenderer: {fileID: 1704607920}
   moleScript:
   - {fileID: 488730030}
   - {fileID: 591192474}
@@ -8595,6 +8586,7 @@ MonoBehaviour:
   - {fileID: 1818462805}
   - {fileID: 1960182366}
   - {fileID: 2134310451}
+  backgroundImage: {fileID: 1257189194}
 --- !u!1 &1882069366
 GameObject:
   m_ObjectHideFlags: 0
