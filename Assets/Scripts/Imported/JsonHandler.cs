@@ -20,6 +20,8 @@ public class JsonHandler : MonoBehaviour
     public Action<string> moleDataAction;
     public Action<string> gameModeAction;
 
+    [SerializeField] private GameMode gameMode;
+
     public Mole[] moleScript;
 
     [Space]
@@ -49,6 +51,12 @@ public class JsonHandler : MonoBehaviour
         if (moleData != null) moleData?.Invoke(wr.text);
     }
 
+    /// <summary>
+    /// Get game mode.
+    /// There are 3 game modes. 3 seconds (Short), 5 seconds (Medium), and 10 seconds (Long)
+    /// </summary>
+    /// <param name="moleData"></param>
+    /// <returns></returns>
     IEnumerator GetGameModeCo(Action<string> moleData = null)
     {
         fullDataPath = System.IO.Path.Combine(Application.streamingAssetsPath, gameModePath);
@@ -57,6 +65,34 @@ public class JsonHandler : MonoBehaviour
         yield return wr;
         gameDataJson = wr.text;
         if (moleData != null) moleData?.Invoke(wr.text);
+
+        gameMode = JsonUtility.FromJson<GameMode>(gameDataJson);
+        GameManager gameManager = GameObject.FindObjectOfType<GameManager>();
+
+        switch (gameMode.gameMode)
+        {
+            case "short":
+                gameManager.SetGameType(GameManager.GameType.Short);
+                break;
+
+            case "medium":
+                gameManager.SetGameType(GameManager.GameType.Medium);
+                break;
+            case "Medium":
+                gameManager.SetGameType(GameManager.GameType.Medium);
+                break;
+
+            case "long":
+                gameManager.SetGameType(GameManager.GameType.Long);
+                break;
+            case "Long":
+                gameManager.SetGameType(GameManager.GameType.Long);
+                break;
+            default:
+            case "Short":
+                gameManager.SetGameType(GameManager.GameType.Short);
+                break;
+        }
     }
 
     void GetImages()
@@ -74,6 +110,7 @@ public class JsonHandler : MonoBehaviour
         backgroundImage.sprite = ConvertTextureToSprite(backgroundTexture);
     }
 
+    #region Static functions
     public static Texture2D TextureFromStreamingAssets(string textureName)
     {
         string imageFile = Application.streamingAssetsPath + "/Images/Defaults/" + textureName + ".png";
@@ -89,4 +126,11 @@ public class JsonHandler : MonoBehaviour
         Sprite sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), pivot, 100.0f);
         return sprite;
     }
+    #endregion
+}
+
+[System.Serializable]
+public class GameMode
+{
+    public string gameMode;
 }
