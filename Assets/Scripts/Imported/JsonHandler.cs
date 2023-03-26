@@ -26,6 +26,10 @@ public class JsonHandler : MonoBehaviour
 
     [Space]
     [SerializeField] private Image backgroundImage;
+    [SerializeField] private Image avatarForegroundImage;
+    [SerializeField] private Image topForegroundImage;
+    [SerializeField] private Image rightForegroundImage;
+    [SerializeField] private Image leftForegroundImage;
 
     void Awake()
     {
@@ -107,7 +111,16 @@ public class JsonHandler : MonoBehaviour
         }
 
         Texture2D backgroundTexture = TextureFromStreamingAssets("Background");
+        Texture2D avatarForgroundTexture = TextureFromStreamingAssets("AvatarForeground");
+        Texture2D topForegroundTexture = TextureFromStreamingAssets("TopForeground");
+        Texture2D rightForegroundTexture = TextureFromStreamingAssets("RightForeground");
+        Texture2D leftForegroundTexture = TextureFromStreamingAssets("LeftForeground");
+
         backgroundImage.sprite = ConvertTextureToSprite(backgroundTexture);
+        avatarForegroundImage.sprite = ConvertTextureToSprite(avatarForgroundTexture);
+        topForegroundImage.sprite = ConvertTextureToSprite(topForegroundTexture);
+        rightForegroundImage.sprite = ConvertTextureToSprite(rightForegroundTexture);
+        leftForegroundImage.sprite = ConvertTextureToSprite(leftForegroundTexture);
     }
 
     #region Static functions
